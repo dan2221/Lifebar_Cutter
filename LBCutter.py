@@ -9,7 +9,10 @@ from PIL import ImageTk,Image
 root = Tk()
 root.title('SorR Lifebar Cutter')
 root.geometry("290x230")
-root.iconbitmap('icon/cutter16x16.ico')
+
+if os.path.isfile('icon/cutter16x16.ico'):
+	root.iconbitmap('icon/cutter16x16.ico')
+
 root.resizable(width=False, height=False)
 
 # ------- FUNCTIONS -------------------------------
