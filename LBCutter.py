@@ -19,15 +19,14 @@ root.resizable(width=False, height=False)
 #echo = lambda value: Label(root, text=value).pack()
 class LBC:
 	def __init__(self):
-		self.LifeButton = 'qualquer coisa'
-		self.EmptyButton = 'qualquer coisa'
-		self.ExtraButton = 'qualquer coisa'
-		self.LifeView = 'qualquer coisa'
-		self.EmptyView = 'qualquer coisa'
-		self.ExtraView = 'qualquer coisa'
-		self.photo1 = 'qualquer coisa'
-		self.photo2 = 'qualquer coisa'
-		self.photo3 = 'qualquer coisa'
+		self.LifeButton = Button(root, command=LifebarCut, text ="Lifebar", width=10, state=DISABLED)
+		self.EmptyButton = Button(root, command=EmptybarCut, text ="Emptybar", width=10, state=DISABLED)
+		self.ExtraButton = Button(root, command=ExtrabarCut, text ="Extrabar", width=10, state=DISABLED)
+		self.View = Label(root, text=' ', fg='#f00')
+
+		self.photo1 = ""
+		self.photo2 = ""
+		self.photo3 = ""
 		self.Texto_final = Label(root, text='\nPlease, choose an option!')
 
 	# Get data
@@ -44,57 +43,48 @@ class LBC:
 	def botoes(self):
 		# Lifebar -----------------------------------------------------------------------
 		if not os.path.isfile('lifebar.png'):
-			self.LifeButton = Button(root, text ="Lifebar", state=DISABLED, width=10)
-			self.LifeView = Label(root, text='lifebar.png not found!', fg='#f00')
+			self.View['text'] = 'lifebar.png not found!'
 		elif int(Image.open("lifebar.png").size[0]) != 104:
-			self.LifeButton = Button(root, text ="Lifebar", state=DISABLED, width=10)
-			self.LifeView = Label(root, text='Image width is not 104!', fg='#f00')
+			self.View['text'] = 'Image width is not 104!'
 		elif int(Image.open("lifebar.png").size[1]) > 12:
-			self.LifeButton = Button(root, text ="Lifebar", state=DISABLED, width=10)
-			self.LifeView = Label(root, text="Image height is too large!", fg='#f00')
+			self.View['text'] = "Image height is too large!"
 		else:
-			self.LifeButton = Button(root, text ="Lifebar", command=LifebarCut, width=10)
+			self.LifeButton['state'] = NORMAL
 			self.photo1 = tk.PhotoImage(file='lifebar.png')
-			self.LifeView = ttk.Label(root, image=self.photo1)
+			self.View = Label(root, image=self.photo1)
+
+		self.LifeButton.grid(row=2, column=0)
+		self.View.grid(row=2, column=1, sticky='w')
 
 		# Emptybar ----------------------------------------------------------------------
 		if not os.path.isfile('emptybar.png'):
-			self.EmptyButton = Button(root, text ="Emptybar", state=DISABLED, width=10)
-			self.EmptyView = Label(root, text='emptybar.png not found!', fg='#f00')
+			self.View['text'] = 'emptybar.png not found!'
 		elif int(Image.open("emptybar.png").size[0]) != 106:
-			self.EmptyButton = Button(root, text ="Emptybar", state=DISABLED, width=10)
-			self.EmptyView = Label(root, text='Image width is not 106!', fg='#f00')
+			self.View['text'] = 'Image width is not 106!'
 		elif int(Image.open("emptybar.png").size[1]) > 12:
-			self.EmptyButton = Button(root, text ="Emptybar", state=DISABLED, width=10)
-			self.EmptyView = Label(root, text="Image height is too large!", fg='#f00')
+			self.View['text'] = "Image height is too large!"
 		else:
-			self.EmptyButton = Button(root, text ="Emptybar", command = EmptybarCut, width=10)
+			self.EmptyButton['state'] = NORMAL
 			self.photo2 = tk.PhotoImage(file='emptybar.png')
-			self.EmptyView = ttk.Label(root, image=self.photo2)
+			self.View = Label(root, image=self.photo2)
+
+		self.EmptyButton.grid(row=3, column=0)
+		self.View.grid(row=3, column=1, sticky='w')
 
 		# Extrabar ----------------------------------------------------------------------
 		if not os.path.isfile('extrabar.png'):
-			self.ExtraButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
-			self.ExtraView = Label(root, text='extrabar.png not found!', fg='#f00')
+			self.View['text'] = 'extrabar.png not found!'
 		elif int(Image.open("extrabar.png").size[0]) != 104:
-			self.ExtraButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
-			self.ExtraView = Label(root, text='Image width is not 104!', fg='#f00')
+			self.View['text'] = 'Image width is not 104!'
 		elif int(Image.open("extrabar.png").size[1]) > 12:
-			self.ExtraButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
-			self.ExtraView = Label(root, text="Image height is too large!", fg='#f00')
+			self.View['text'] = "Image height is too large!"
 		else:
-			self.ExtraButton = Button(root, text ="Extrabar", command = ExtrabarCut, width=10)
+			self.ExtraButton['state'] = NORMAL
 			self.photo3 = tk.PhotoImage(file='extrabar.png')
-			self.ExtraView = ttk.Label(root, image=self.photo3)
-
-		self.LifeButton.grid(row=2, column=0)
-		self.LifeView.grid(row=2, column=1, sticky='w')
-
-		self.EmptyButton.grid(row=3, column=0)
-		self.EmptyView.grid(row=3, column=1, sticky='w')
+			self.View = Label(root, image=self.photo3)
 
 		self.ExtraButton.grid(row=4, column=0)
-		self.ExtraView.grid(row=4, column=1, sticky='w')
+		self.View.grid(row=4, column=1, sticky='w')
 		
 def LifebarCut():
 	p1.removeLabel()
