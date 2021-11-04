@@ -8,7 +8,7 @@ from PIL import ImageTk,Image
 
 root = Tk()
 root.title('SorR Lifebar Cutter')
-root.geometry("290x230")
+root.geometry("282x280")
 
 if os.path.isfile('icon/cutter16x16.ico'):
 	root.iconbitmap('icon/cutter16x16.ico')
@@ -28,14 +28,14 @@ class LBC:
 		self.photo1 = ""
 		self.photo2 = ""
 		self.photo3 = ""
-		self.Texto_final = Label(root, text='\nPlease, choose an option!')
+		self.Texto_final = Label(root, text='\nPlease, choose an option!\n')
 
 	# Get data
 	def getFinalText(self):
 		return self.Texto_final
 
-	def changeText(self):
-		self.Texto_final = Label(root, text='\nDONE!', fg='#00f')
+	def changeText(self, mytext):
+		self.Texto_final = Label(root, text=f'\n{mytext}\n', fg='#00f')
 		return self.Texto_final
 
 	def removeLabel(self):
@@ -110,17 +110,48 @@ def barCut(barfile):
 			cropped.save(f'{barfile}/{G}.png')
 			print(G,'created')
 			width-=1
-	p1.changeText().grid(row=5, columnspan=2)
+	p1.changeText('DONE!').grid(row=7, columnspan=2)
+
+# ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+# This script creates an image with indexed palette of three images.
+# Thanks to nkmk for the code available in: https://note.nkmk.me/en/python-pillow-concat-images/
+def get_concat_v():
+	p1.removeLabel()
+	im1 = Image.open('lifebar.png')
+	im2 = Image.open('emptybar.png')
+	im3 = Image.open('extrabar.png')
+	dst = Image.new('RGB', (im1.width, im1.height + im2.height + im3.height))
+	dst.paste(im1, (0, 0))
+	dst.paste(im2, (0, im1.height))
+	dst.paste(im3, (0, int(im1.height+im2.height)))
+	result = dst.convert('P', palette=Image.ADAPTIVE, colors=255)
+	result.save('PALETTE.png')
+	p1.changeText('Image created!').grid(row=7, columnspan=2)
 
 #================= HOME ==========================
 p1 = LBC()
 
-Label(root, text='SORR LIFEBAR CUTTER v1.3 by Chavyn\n').grid(row=0, columnspan=2, ipadx=25)
+Label(root, text='SORR LIFEBAR CUTTER v1.4 by Chavyn\n').grid(row=0, columnspan=2, ipadx=25)
 Label(root, text='What do you want to crop?\n').grid(row=1, columnspan=2)
 
 # -----------------------------------------------------------------------
 
 p1.myBottoms()
 
-p1.getFinalText().grid(row=5, columnspan=2)
+Label(root, text=' ').grid(row=5, columnspan=2)
+
+# Palette
+paleteButton=Button(root, command=get_concat_v, text="Create image with indexed palette", state=NORMAL)
+
+# Check if files exist
+for G in ('life','empty','extra'):
+	if not os.path.isfile(f'{G}bar.png'):
+		paleteButton['state']=DISABLED
+
+paleteButton.grid(row=6, columnspan=2)
+
+# Final text
+p1.getFinalText().grid(row=7, columnspan=2)
+
 root.mainloop()
