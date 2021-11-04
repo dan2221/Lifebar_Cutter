@@ -17,11 +17,13 @@ root.resizable(width=False, height=False)
 
 # ------- FUNCTIONS -------------------------------
 #echo = lambda value: Label(root, text=value).pack()
+# ------- FUNCTIONS -------------------------------
+#echo = lambda value: Label(root, text=value).pack()
 class LBC:
 	def __init__(self):
-		self.LifeButton = Button(root, command=LifebarCut, text ="Lifebar", width=10, state=DISABLED)
-		self.EmptyButton = Button(root, command=EmptybarCut, text ="Emptybar", width=10, state=DISABLED)
-		self.ExtraButton = Button(root, command=ExtrabarCut, text ="Extrabar", width=10, state=DISABLED)
+		self.LifeButton = Button(root, command=lambda: barCut("Lifebar"), text ="Lifebar", width=10, state=DISABLED)
+		self.EmptyButton = Button(root, command=lambda: barCut('emptybar'), text ="Emptybar", width=10, state=DISABLED)
+		self.ExtraButton = Button(root, command=lambda: barCut('extrabar'), text ="Extrabar", width=10, state=DISABLED)
 		self.View = Label(root, text=' ', fg='#f00')
 
 		self.photo1 = ""
@@ -40,7 +42,7 @@ class LBC:
 	def removeLabel(self):
 		self.Texto_final.after(9, self.Texto_final.destroy())
 
-	def botoes(self):
+	def myBottoms(self):
 		# Lifebar -----------------------------------------------------------------------
 		if not os.path.isfile('lifebar.png'):
 			self.View['text'] = 'lifebar.png not found!'
@@ -86,44 +88,28 @@ class LBC:
 		self.ExtraButton.grid(row=4, column=0)
 		self.View.grid(row=4, column=1, sticky='w')
 		
-def LifebarCut():
+def barCut(barfile):
 	p1.removeLabel()
-	if not os.path.exists('lifebar'):
-		os.mkdir('lifebar')
-	original = Image.open("lifebar.png")
+	if not os.path.exists(barfile):
+		os.mkdir(barfile)
+	original = Image.open(f"{barfile}.png")
 	width, height = original.size # Get dimensions
-	for G in range(24, 128):
-		cropped = original.crop((0, 0, width, height))
-		cropped.save(f'lifebar/{G}.png')
-		print(G,'created')
-		width-=1
-	p1.changeText().grid(row=5, columnspan=2)
-	
-def ExtrabarCut():
-	p1.removeLabel()
-	if not os.path.exists('extrabar'):
-		os.mkdir('extrabar')
-	original = Image.open("extrabar.png")
-	width, height = original.size # Get dimensions
-	for M in range(24, 128):
-		cropped = original.crop((0, 0, width, height))
-		cropped.save(f'extrabar/{M}.png')
-		print(M,'created')
-		width-=1
-	p1.changeText().grid(row=5, columnspan=2)
+	if barfile == 'emptybar':
+		# EmptyBar ------------------------------------------
+		xpos = 0
+		for S in range(24, 128):
+			cropped = original.crop((xpos, 0, width, height))
+			cropped.save(f'emptybar/{S}.png')
+			print(f'{S} created')
+			xpos+=1
 
-def EmptybarCut():
-	p1.removeLabel()
-	if not os.path.exists('emptybar'):
-		os.mkdir('emptybar')
-	original = Image.open("emptybar.png")
-	width, height = original.size # Get dimensions
-	xpos = 0
-	for S in range(24, 128):
-		cropped = original.crop((xpos, 0, width, height))
-		cropped.save(f'emptybar/{S}.png')
-		print(f'{S} created')
-		xpos+=1
+		# Others --------------------------------------------
+	else:
+		for G in range(24, 128):
+			cropped = original.crop((0, 0, width, height))
+			cropped.save(f'{barfile}/{G}.png')
+			print(G,'created')
+			width-=1
 	p1.changeText().grid(row=5, columnspan=2)
 
 #================= HOME ==========================
@@ -134,7 +120,7 @@ Label(root, text='What do you want to crop?\n').grid(row=1, columnspan=2)
 
 # -----------------------------------------------------------------------
 
-p1.botoes()
+p1.myBottoms()
 
 p1.getFinalText().grid(row=5, columnspan=2)
 root.mainloop()
