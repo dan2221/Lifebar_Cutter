@@ -16,9 +16,6 @@ if os.path.isfile('icon/cutter16x16.ico'):
 root.resizable(width=False, height=False)
 
 # ------- FUNCTIONS -------------------------------
-#echo = lambda value: Label(root, text=value).pack()
-# ------- FUNCTIONS -------------------------------
-#echo = lambda value: Label(root, text=value).pack()
 class LBC:
 	def __init__(self):
 		self.LifeButton = Button(root, command=lambda: barCut("Lifebar"), text ="Lifebar", width=10, state=DISABLED)
@@ -88,6 +85,7 @@ class LBC:
 		self.ExtraButton.grid(row=4, column=0)
 		self.View.grid(row=4, column=1, sticky='w')
 		
+# The function below uses Pillow library to cut the images.
 def barCut(barfile):
 	p1.removeLabel()
 	if not os.path.exists(barfile):
