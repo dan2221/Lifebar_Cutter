@@ -31,24 +31,6 @@ class LBC:
 		self.Texto_final = Label(root, text='\nPlease, choose an option!')
 
 	# Get data
-	def getLifeButton(self):
-		return self.LifeButton
-
-	def getLifeView(self):
-		return self.LifeView
-
-	def getEmptyButton(self):
-		return self.EmptyButton
-
-	def getEmptyView(self):
-		return self.EmptyView
-
-	def getExtraButton(self):
-		return self.ExtraButton
-
-	def getExtraView(self):
-		return self.ExtraView
-
 	def getFinalText(self):
 		return self.Texto_final
 
@@ -95,15 +77,24 @@ class LBC:
 			self.ExtraButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
 			self.ExtraView = Label(root, text='extrabar.png not found!', fg='#f00')
 		elif int(Image.open("extrabar.png").size[0]) != 104:
-			self.EmptyButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
-			self.EmptyView = Label(root, text='Image width is not 104!', fg='#f00')
+			self.ExtraButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
+			self.ExtraView = Label(root, text='Image width is not 104!', fg='#f00')
 		elif int(Image.open("extrabar.png").size[1]) > 12:
-			self.EmptyButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
-			self.EmptyView = Label(root, text="Image height is too large!", fg='#f00')
+			self.ExtraButton = Button(root, text ="Extrabar", state=DISABLED, width=10)
+			self.ExtraView = Label(root, text="Image height is too large!", fg='#f00')
 		else:
 			self.ExtraButton = Button(root, text ="Extrabar", command = ExtrabarCut, width=10)
 			self.photo3 = tk.PhotoImage(file='extrabar.png')
 			self.ExtraView = ttk.Label(root, image=self.photo3)
+
+		self.LifeButton.grid(row=2, column=0)
+		self.LifeView.grid(row=2, column=1, sticky='w')
+
+		self.EmptyButton.grid(row=3, column=0)
+		self.EmptyView.grid(row=3, column=1, sticky='w')
+
+		self.ExtraButton.grid(row=4, column=0)
+		self.ExtraView.grid(row=4, column=1, sticky='w')
 		
 def LifebarCut():
 	p1.removeLabel()
@@ -148,22 +139,12 @@ def EmptybarCut():
 #================= HOME ==========================
 p1 = LBC()
 
-Label(root, text='SORR LIFEBAR CUTTER v1.2 by Chavyn\n').grid(row=0, columnspan=2, ipadx=25)
+Label(root, text='SORR LIFEBAR CUTTER v1.3 by Chavyn\n').grid(row=0, columnspan=2, ipadx=25)
 Label(root, text='What do you want to crop?\n').grid(row=1, columnspan=2)
 
-# Lifebar -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 
 p1.botoes()
-
-p1.getLifeButton().grid(row=2, column=0)
-p1.getLifeView().grid(row=2, column=1, sticky='w')
-
-p1.getEmptyButton().grid(row=3, column=0)
-p1.getEmptyView().grid(row=3, column=1, sticky='w')
-
-p1.getExtraButton().grid(row=4, column=0)
-p1.getExtraView().grid(row=4, column=1, sticky='w')
-
 
 p1.getFinalText().grid(row=5, columnspan=2)
 root.mainloop()
