@@ -10,9 +10,6 @@ root = Tk()
 root.title('SorR Lifebar Cutter')
 root.geometry("282x280")
 
-if os.path.isfile('icon/cutter16x16.ico'):
-	root.iconbitmap('icon/cutter16x16.ico')
-
 root.resizable(width=False, height=False)
 
 # ------- FUNCTIONS -------------------------------
@@ -99,34 +96,80 @@ def barCut(barfile):
 		xpos = 0
 		for S in range(24, 128):
 			cropped = original.crop((xpos, 0, width, height))
-			cropped.save(f'emptybar/{S}.png')
-			print(f'{S} created')
+			# Add number 0 to filenames with two digits:
+			if S >= 100:
+				cropped.save(f'emptybar/{S}.png')
+				print(f'{S} created')
+			else:
+				cropped.save(f'emptybar/0{S}.png')
+				print(f'0{S} created')
 			xpos+=1
 
 		# Others --------------------------------------------
 	else:
 		for G in range(24, 128):
 			cropped = original.crop((0, 0, width, height))
-			cropped.save(f'{barfile}/{G}.png')
-			print(G,'created')
+			# Add number 0 to filenames with two digits:
+			if G >= 100:
+				cropped.save(f'{barfile}/{G}.png')
+				print(G,'created')
+			else:
+				cropped.save(f'{barfile}/0{G}.png')
+				print(f'0{G} created')
 			width-=1
 	p1.changeText('DONE!').grid(row=7, columnspan=2)
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-# This script creates an image with indexed palette of three images.
-# Thanks to nkmk for the code available in: https://note.nkmk.me/en/python-pillow-concat-images/
 def get_concat_v():
+	# This script creates an image with indexed palette of three images.
+	# Credits to nkmk for part of the code:
+	# https://note.nkmk.me/en/python-pillow-concat-images/
+
+	myPalette=[]
+	another = ''
 	p1.removeLabel()
 	im1 = Image.open('lifebar.png')
 	im2 = Image.open('emptybar.png')
 	im3 = Image.open('extrabar.png')
 	dst = Image.new('RGB', (im1.width, im1.height + im2.height + im3.height))
+
+	# Paste all images in one
 	dst.paste(im1, (0, 0))
 	dst.paste(im2, (0, im1.height))
 	dst.paste(im3, (0, int(im1.height+im2.height)))
-	result = dst.convert('P', palette=Image.ADAPTIVE, colors=255)
-	result.save('PALETTE.png')
+	converted = dst.convert('P', palette=Image.ADAPTIVE, colors=255)
+	
+	# Get all color data from image and remove unnecessary characters.
+ 	# The result is only numbers and spaces, that will be concatenate in the var "another".
+	for G in converted.convert('RGB').getcolors():
+		another += str(G)[:-1][1:].replace("(","").replace(")"," ").replace(",","")
+
+	# Append only RGB color values from string "another" to array "myPalette".
+	# The "[:-1]" removes the blank space in the end of string "another".
+	count = 1
+	for G in another[:-1].split(" "):
+		if count != 1:
+			myPalette.append(int(G))
+		count+=1
+		if count == 5:
+			count = 1
+
+	# Add transparent collor (RGB:0,0,0) to first index of palette:
+	for G in range(3):
+		myPalette.insert(G, 0)
+
+	# Print all palette values:
+	count = 3
+	print('Palette colors (RGB):')
+	for G in range(int(len(myPalette))//3):
+		print(f'Color {G}: {myPalette[count-3]},{myPalette[count-2]},{myPalette[count-1]}')
+		count+=3
+
+	# Create a new image to receive the palette and be saved:
+	p_img = Image.new('P', (16, 16))
+	p_img.putpalette(myPalette)
+	p_img.save('PALETTE.png')
+
 	p1.changeText('Image created!').grid(row=7, columnspan=2)
 
 #================= HOME ==========================
