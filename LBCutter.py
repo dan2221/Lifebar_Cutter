@@ -67,6 +67,8 @@ class LBC:
 		# Emptybar ----------------------------------------------------------------------
 		if not os.path.isfile('emptybar.png'):
 			self.View2['text'] = 'emptybar.png not found!'
+		elif Image.open("emptybar.png").size[0] < 105:
+			self.View1['text'] = 'Image width is less than 105!'
 		elif Image.open("emptybar.png").size[1] > 12:
 			self.View2['text'] = "Image height is too large!"
 		else:
