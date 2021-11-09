@@ -239,7 +239,7 @@ def get_concat_v():
 		for G in range(256-len(myPalette)//3):
 			arquivo_pal.write('0 0 0\n')
 
-	p1.changeText('Palette created!').grid(row=7, columnspan=2)
+	p1.changeText('Palette created!').grid(row=8, columnspan=2)
 
 # :::::::::::::::::::::::::::: HOME ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 p1 = LBC()
