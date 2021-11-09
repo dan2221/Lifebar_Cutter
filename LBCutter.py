@@ -18,7 +18,7 @@ import shutil
 version = 1.5
 root = Tk()
 root.title('SorR Lifebar Cutter')
-root.geometry("282x310")
+root.geometry("310x310")
 
 root.resizable(width=False, height=False)
 
@@ -52,6 +52,10 @@ class LBC:
 		self.Texto_final.after(9, self.Texto_final.destroy())
 
 	def myBottoms(self):
+		if os.path.isfile("names/*.png"):
+			print(glob.glob("names/*.png"))
+		else:
+			print('There are no files')
 		# Lifebar -----------------------------------------------------------------------
 		if not os.path.isfile('lifebar.png'):
 			self.View1['text'] = 'lifebar.png not found!'
@@ -67,7 +71,7 @@ class LBC:
 		self.LifeButton.grid(row=2, column=0)
 		self.View1.grid(row=2, column=1, sticky='w')
 
-		# Emptybar ----------------------------------------------------------------------
+		# Emptybar button ----------------------------------------------------------------------
 		if not os.path.isfile('emptybar.png'):
 			self.View2['text'] = 'emptybar.png not found!'
 		elif Image.open("emptybar.png").size[0] < 105:
@@ -82,7 +86,7 @@ class LBC:
 		self.EmptyButton.grid(row=3, column=0)
 		self.View2.grid(row=3, column=1, sticky='w')
 
-		# Extrabar ----------------------------------------------------------------------
+		# Extrabar button ----------------------------------------------------------------------
 		if not os.path.isfile('extrabar.png'):
 			self.View3['text'] = 'extrabar.png not found!'
 		elif Image.open("extrabar.png").size[0] != 104:
@@ -97,9 +101,14 @@ class LBC:
 		self.ExtraButton.grid(row=4, column=0)
 		self.View3.grid(row=4, column=1, sticky='w')
 
-		# Playerbar ----------------------------------------------------------------------
+		# Playerbar button ----------------------------------------------------------------------
 		if not os.path.isfile('playerbar.png'):
 			self.View4['text'] = 'playerbar.png not found!'
+		elif not os.path.exists('names'):
+			self.View4['text'] = '"names" folder not found!'
+		# Simple way to check if a file exists.
+		elif not glob.glob('names/*.png'):
+			self.View4['text'] = 'No png found in "names"!'
 		elif Image.open("playerbar.png").size[1] >= 22:
 			self.View4['text'] = "Image height is too large!"
 		else:
@@ -244,7 +253,7 @@ def get_concat_v():
 # :::::::::::::::::::::::::::: HOME ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 p1 = LBC()
 
-Label(root, text=f'SORR LIFEBAR CUTTER v{version} by Chavyn\n').grid(row=0, columnspan=2, ipadx=25)
+Label(root, text=f'SORR LIFEBAR CUTTER v{version} by Chavyn\n').grid(row=0, columnspan=2, ipadx=32)
 Label(root, text='What do you want to crop?\n').grid(row=1, columnspan=2)
 
 # -----------------------------------------------------------------------
