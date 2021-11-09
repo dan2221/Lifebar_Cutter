@@ -29,7 +29,10 @@ class LBC:
 		self.EmptyButton = Button(root, command=lambda: barCut('emptybar'), text ="Emptybar", width=10, state=DISABLED)
 		self.ExtraButton = Button(root, command=lambda: barCut('extrabar'), text ="Extrabar", width=10, state=DISABLED)
 		self.PlayerButton = Button(root, command=playerBarMaker, text ="Playerbar", width=10, state=DISABLED)
-		self.View1 = self.View2 = self.View3 = self.View4 = Label(root, text=' ', fg='#f00')
+		self.View1 = Label(root, text=' ', fg='#f00')
+		self.View2 = Label(root, text=' ', fg='#f00')
+		self.View3 = Label(root, text=' ', fg='#f00')
+		self.View4 = Label(root, text=' ', fg='#f00')
 
 		self.photo1 = ""
 		self.photo2 = ""
