@@ -4,17 +4,19 @@ set "i_view_directory=PUT THE DIRECTORY HERE"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:: Checking for needed files.
-for %%G in (
-	i_view_palette.pal
-	%i_view_directory%
-) do (
-	if not exist "%%G" (
-		echo ERROR: file "%%G" not found!
-		echo Please, open LBCutter.exe and choose "Generate palette file".
-		pause
-		exit
-	)
+:: Checking for the pal file.
+if not exist "i_view_palette.pal" (
+	echo ERROR: file "i_view_palette.pal" not found!
+	echo Please, open LBCutter.exe and choose "Generate palette file".
+	pause
+	exit
+)
+
+:: Checking for I_view directory.
+if not exist "%i_view_directory%" (
+	echo ERROR: Irfan View directory not found!
+	pause
+	exit
 )
 
 :: Checking for folders.
@@ -28,9 +30,9 @@ if not exist "lifebar\*.bmp" (
 	)
 )
 
-echo Appling palette...
 for %%G in (lifebar, extrabar, emptybar) do (
 	if exist "%%G\*.bmp" (
+		echo Appling palette to %%G files...
 		%i_view_directory%  "%~dp0\%%G\*.bmp" /import_pal="%~dp0\i_view_palette.pal" /transpcolor="None" /convert="%~dp0\%%G\*.bmp"
 	)
 )
