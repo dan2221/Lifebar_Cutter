@@ -15,13 +15,16 @@ from PIL import ImageTk,Image
 # txt file manipulation
 import shutil
 
+# Access links
+import webbrowser
+
 # PalApply
 from PalApply import apply_palette_to_folders
 
 version = "25.09.17"
 root = Tk()
 root.title('SorR Lifebar Cutter')
-root.geometry("310x310")
+root.geometry("310x270")
 
 root.resizable(width=False, height=False)
 
@@ -41,7 +44,7 @@ class LBC:
 		self.photo2 = ""
 		self.photo3 = ""
 		self.photo4 = ""
-		self.Texto_final = Label(root, text='\nPlease, choose an option!\n')
+		self.Texto_final = Label(root, text='\nChoose an option!\n')
 
 	# Get data
 	def getFinalText(self):
@@ -55,10 +58,10 @@ class LBC:
 		self.Texto_final.after(9, self.Texto_final.destroy())
 
 	def myBottoms(self):
-		if os.path.isfile("names/*.png"):
-			print(glob.glob("names/*.png"))
+		if glob.glob("names/*.png"):
+		    print(glob.glob("names/*.png"))
 		else:
-			print('There are no files')
+		    print('There are no files')
 		# Lifebar -----------------------------------------------------------------------
 		if not os.path.isfile('lifebar.png'):
 			self.View1['text'] = 'lifebar.png not found!'
@@ -157,7 +160,7 @@ def barCut(barfile):
 			width-=1
 	p1.changeText('DONE!').grid(row=8, columnspan=2)
 
-# This function makes players emptybars
+# This function makes players' emptybars
 def playerBarMaker():
 	p1.removeLabel()
 	if not os.path.exists('playerbar'):
@@ -193,6 +196,35 @@ def playerBarMaker():
 
 	p1.changeText('Player bars done!').grid(row=8, columnspan=2)
 
+# Thank you window
+def open_love_window():
+    love_win = Toplevel(root)
+    love_win.title("Thanks 💖")
+    love_win.geometry("340x210")
+    love_win.resizable(False, False)
+    Label(love_win, text=f"Developed with love by Dan Chavyn.\nVersion: {version}\n\nCheck out also:", font=("Arial", 12)).pack(pady=5)
+    
+    # Link 1
+    link1 = Label(love_win, text="Project GitHub", fg="blue", cursor="hand2", font=("Arial", 10, "underline"))
+    link1.pack()
+    link1.bind("<Button-1>", lambda e: webbrowser.open_new("https://github.com/dan2221/Lifebar_Cutter"))
+    
+    # Link 2
+    link2 = Label(love_win, text="My YouTube channel", fg="blue", cursor="hand2", font=("Arial", 10, "underline"))
+    link2.pack()
+    link2.bind("<Button-1>", lambda e: webbrowser.open_new("https://www.youtube.com/playlist?list=PLa-mXLTenBmKFWyTz2OeIF-b6gNuYOWzw"))
+
+    # Link 3
+    link3 = Label(love_win, text="Ko-Fi", fg="blue", cursor="hand2", font=("Arial", 10, "underline"))
+    link3.pack()
+    link3.bind("<Button-1>", lambda e: webbrowser.open_new("https://ko-fi.com/danchavyn"))
+
+    # Link 4
+    link4 = Label(love_win, text="PayPal", fg="blue", cursor="hand2", font=("Arial", 10, "underline"))
+    link4.pack()
+    link4.bind("<Button-1>", lambda e: webbrowser.open_new("https://www.paypal.com/donate/?hosted_button_id=RK8T3UG4T2LCU"))
+    
+    Label(love_win, text="\n\n\nThank you for using!\n\n", font=("Arial", 10)).pack()
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 def get_concat_v():
@@ -279,8 +311,8 @@ def get_concat_v():
 # :::::::::::::::::::::::::::: HOME ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 p1 = LBC()
 
-Label(root, text=f'SORR LIFEBAR CUTTER v{version} by Chavyn\n').grid(row=0, columnspan=2, ipadx=32)
-Label(root, text='What do you want to crop?\n').grid(row=1, columnspan=2)
+Label(root, text='Click the buttons to cut your bars into pieces.').grid(row=0, columnspan=2, ipadx=32)
+Label(root, text=' ').grid(row=1, columnspan=2)
 
 # -----------------------------------------------------------------------
 
@@ -300,5 +332,13 @@ paleteButton.grid(row=7, columnspan=2)
 
 # Final text
 p1.getFinalText().grid(row=8, columnspan=2)
+try:
+    heart_img = PhotoImage(file="heart16x16.png")
+    heart_btn = Button(root, image=heart_img, command=open_love_window, bd=0)
+    heart_btn.image = heart_img  # evita garbage collection
+    heart_btn.place(relx=1.0, rely=1.0, anchor="se", x=-5, y=-5)
+    
+except Exception as e:
+    print("Erro ao carregar ícone:", e)
 
 root.mainloop()
