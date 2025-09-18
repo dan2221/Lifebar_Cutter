@@ -11,10 +11,4 @@ The empty bar (for enemies) image width needs to be equal or more than 105 pixel
 
 Remember, the player empty bar needs to be a single image that you need to insert in the character fpg file.
 
-To use "apply palette.bat" you need to do the following steps:
-	• Download a program called Irfan View;
-	• Do a right click on the batch and click on "edit";
-	• Write you irfanview executable directory on the indicated place.
-	• Double-click on the batch file.
-
 After everything is ready, start the program and choose an option that you like.

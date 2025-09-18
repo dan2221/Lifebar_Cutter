@@ -1,0 +1,11 @@
+# Python bytecode
+__pycache__/
+LBCutter/
+
+emptybar
+extrabar
+Lifebar
+playerbar
+
+*.pal
+*.exe

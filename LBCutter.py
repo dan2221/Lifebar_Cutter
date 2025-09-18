@@ -15,7 +15,10 @@ from PIL import ImageTk,Image
 # txt file manipulation
 import shutil
 
-version = 1.5
+# PalApply
+from PalApply import apply_palette_to_folders
+
+version = "25.09.17"
 root = Tk()
 root.title('SorR Lifebar Cutter')
 root.geometry("310x310")
@@ -230,9 +233,27 @@ def get_concat_v():
 	for G in range(3):
 		myPalette.insert(G, 0)
 
+	# >>> SORT COLORS EXCEPT THE FIRST <<<
+	# myPalette is currently: [0, 0, 0, R1, G1, B1, R2, G2, B2, ...]
+	# Keep the first color (transparent) fixed
+	transparent = myPalette[:3]
+	colors = myPalette[3:]
+
+	# Group the rest into (R, G, B) tuples
+	color_tuples = [tuple(colors[i:i+3]) for i in range(0, len(colors), 3)]
+
+	# Sort the tuples (by default: R, then G, then B)
+	color_tuples_sorted = sorted(color_tuples)
+
+	# Flatten back to a list and rejoin with the transparent color at the front
+	myPalette = list(transparent) + [value for rgb in color_tuples_sorted for value in rgb]
+
+	##################################################
+
+
 	# Create .pal file.
-	Path('i_view_palette.pal').touch()
-	arquivo_pal = open('i_view_palette.pal', 'w')
+	Path('palette.pal').touch()
+	arquivo_pal = open('palette.pal', 'w')
 	arquivo_pal.write("JASC-PAL\n0100\n256\n")
 
 	# Print all palette values and add to palette file.
@@ -250,6 +271,11 @@ def get_concat_v():
 
 	p1.changeText('Palette created!').grid(row=8, columnspan=2)
 
+	# Close the file so it can be used in the next method.
+	arquivo_pal.close()
+
+	apply_palette_to_folders()
+
 # :::::::::::::::::::::::::::: HOME ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 p1 = LBC()
 
@@ -263,7 +289,7 @@ p1.myBottoms()
 Label(root, text=' ').grid(row=6, columnspan=2)
 
 # Palette button.
-paleteButton=Button(root, command=get_concat_v, text="Generate palette file", state=NORMAL)
+paleteButton=Button(root, command=get_concat_v, text="Create and Apply Palette", state=NORMAL)
 
 # Check if files exist
 for G in ('life','empty','extra'):

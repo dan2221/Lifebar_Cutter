@@ -1,5 +1,5 @@
 @echo off
-:: Write your Irfan View directory bellow. Example: "iview_directory=C:\GAMES\SORRv5.1\tools\IrfanView\i_view32.exe"
+:: Write your Irfan View directory below. Example: "iview_directory=C:\GAMES\SORRv5.1\tools\IrfanView\i_view32.exe"
 set "i_view_directory=PUT THE DIRECTORY HERE"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
