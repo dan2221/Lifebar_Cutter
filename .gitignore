@@ -1,6 +1,8 @@
 # Python bytecode
 __pycache__/
 LBCutter/
+build/
+dist/
 
 emptybar
 extrabar
@@ -9,3 +11,5 @@ playerbar
 
 *.pal
 *.exe
+*.spec
+*.zip

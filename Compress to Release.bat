@@ -1,7 +1,10 @@
 @echo off
 setlocal
 
+del "dist\LBCutter.exe"
 pyinstaller --onefile --icon=appicon.ico LBCutter.py
+
+echo Creating folder...
 
 :: Get the current date in the format YYYY-MM-DD
 for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value ^| find "="') do set "currentDate=%%I"
@@ -18,9 +21,12 @@ copy "emptybar.png" "%folderName%"
 copy "extrabar.png" "%folderName%"
 copy "lifebar.png" "%folderName%"
 copy "playerbar.png" "%folderName%"
-copy "names" "%folderName%"
+mkdir "%folderName%\names"
+copy "names\*.png" "%folderName%\names"
 copy "Readme.md" "%folderName%\Readme.txt"
-copy "LBCutter.exe" "%folderName%"
+copy "dist\LBCutter.exe" "%folderName%"
+
+echo Creating zip file...
 
 :: Check if 7-Zip is intalled in the PATH variable
 where 7z >nul 2>nul
