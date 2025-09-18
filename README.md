@@ -1,6 +1,6 @@
 Lifebar Cutter is a tool for modification the sorr game.
 
-![image](https://user-images.githubusercontent.com/36929636/177391642-c44ab356-f919-4369-9bb0-05c1781152c6.png)
+![image](https://raw.githubusercontent.com/dan2221/Lifebar_Cutter/refs/heads/main/screenshot.png)
 
 Replace these files to create your custom lifebars: "lifebar.png", "extrabar.png", "emptybar.png" and "playerbar.png".
 
