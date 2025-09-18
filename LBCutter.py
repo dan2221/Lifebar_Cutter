@@ -21,10 +21,10 @@ import webbrowser
 # PalApply
 from PalApply import apply_palette_to_folders
 
-version = "25.09.17"
+version = "25.09.18"
 root = Tk()
 root.title('SorR Lifebar Cutter')
-root.geometry("310x270")
+root.geometry("310x260")
 
 root.resizable(width=False, height=False)
 
@@ -58,10 +58,13 @@ class LBC:
 		self.Texto_final.after(9, self.Texto_final.destroy())
 
 	def myBottoms(self):
-		if glob.glob("names/*.png"):
-		    print(glob.glob("names/*.png"))
-		else:
+		print('Available character names:')
+		if not glob.glob("names/*.png"):
 		    print('There are no files')
+		else:
+			for caminho in glob.glob("names/*.png"):
+			    nome = os.path.splitext(os.path.basename(caminho))[0]
+			    print(nome)
 		# Lifebar -----------------------------------------------------------------------
 		if not os.path.isfile('lifebar.png'):
 			self.View1['text'] = 'lifebar.png not found!'

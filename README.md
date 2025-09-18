@@ -2,13 +2,12 @@ Lifebar Cutter is a tool for modification the sorr game.
 
 ![image](https://user-images.githubusercontent.com/36929636/177391642-c44ab356-f919-4369-9bb0-05c1781152c6.png)
 
-How to use SORR Lifebar Cutter
+Replace these files to create your custom lifebars: "lifebar.png", "extrabar.png", "emptybar.png" and "playerbar.png".
 
-First you need four files: "lifebar.png", "extrabar.png", "emptybar.png" and "playerbar.png". Look at the example files.
+NOTE:
+• The life bar and extra bar images width needs to be 104 pixels.
+• The empty bar (for enemies) image width needs to be equal or more than 105 pixels.
 
-The life bar and extra bar images width needs to be 104 pixels.
-The empty bar (for enemies) image width needs to be equal or more than 105 pixels.
+After replacing them you can run the program and click each buttom to cut the images in a lot of pieces.
 
-Remember, the player empty bar needs to be a single image that you need to insert in the character fpg file.
-
-After everything is ready, start the program and choose an option that you like.
+Full tutorial about lifebars: https://sorr.forumotion.net/t984-tutorial-custom-lifebars
