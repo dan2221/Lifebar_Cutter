@@ -1,4 +1,4 @@
-Lifebar Cutter is a tool for modification the sorr game.
+Lifebar Cutter is a tool to facilitate the process of creating custom lifebars for SORR.
 
 ![image](https://raw.githubusercontent.com/dan2221/Lifebar_Cutter/refs/heads/main/screenshot.png)
 
